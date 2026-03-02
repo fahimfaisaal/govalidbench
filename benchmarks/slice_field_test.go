@@ -3,7 +3,7 @@ package benchmarks
 import (
 	"testing"
 
-	"github.com/Oudwins/govalidbench/packages/data"
+	"github.com/Oudwins/govalidbench/packages"
 	z "github.com/Oudwins/zog"
 	internals "github.com/Oudwins/zog/internals"
 )
@@ -13,13 +13,13 @@ func BenchmarkSliceField(b *testing.B) {
 	b.Run("zog/Success", func(b *testing.B) {
 		internals.Clear()
 		for i := 0; i < b.N; i++ {
-			data.SliceFieldZog.Validate(&data.SliceFieldSucessVal)
+			packages.SliceFieldZog.Validate(&packages.SliceFieldSucessVal)
 		}
 	})
 	b.Run("zog/Error", func(b *testing.B) {
 		internals.Clear()
 		for i := 0; i < b.N; i++ {
-			errs := data.SliceFieldZog.Validate(&data.SliceFieldFailureVal)
+			errs := packages.SliceFieldZog.Validate(&packages.SliceFieldFailureVal)
 			z.Issues.CollectMap(errs)
 		}
 	})
@@ -27,7 +27,7 @@ func BenchmarkSliceField(b *testing.B) {
 		internals.Clear()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.SliceFieldZog.Validate(&data.SliceFieldSucessVal)
+				packages.SliceFieldZog.Validate(&packages.SliceFieldSucessVal)
 			}
 		})
 	})
@@ -35,7 +35,7 @@ func BenchmarkSliceField(b *testing.B) {
 		internals.Clear()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				errs := data.SliceFieldZog.Validate(&data.SliceFieldFailureVal)
+				errs := packages.SliceFieldZog.Validate(&packages.SliceFieldFailureVal)
 				z.Issues.CollectMap(errs)
 			}
 		})
@@ -44,25 +44,25 @@ func BenchmarkSliceField(b *testing.B) {
 	// --- validator ---
 	b.Run("validator/Success", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			playgroundValidate.Var(data.SliceFieldSucessVal, data.SliceFieldValidator)
+			playgroundValidate.Var(packages.SliceFieldSucessVal, packages.SliceFieldValidator)
 		}
 	})
 	b.Run("validator/Error", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			playgroundValidate.Var(data.SliceFieldFailureVal, data.SliceFieldValidator)
+			playgroundValidate.Var(packages.SliceFieldFailureVal, packages.SliceFieldValidator)
 		}
 	})
 	b.Run("validator/SuccessParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				playgroundValidate.Var(data.SliceFieldSucessVal, data.SliceFieldValidator)
+				playgroundValidate.Var(packages.SliceFieldSucessVal, packages.SliceFieldValidator)
 			}
 		})
 	})
 	b.Run("validator/ErrorParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				playgroundValidate.Var(data.SliceFieldFailureVal, data.SliceFieldValidator)
+				playgroundValidate.Var(packages.SliceFieldFailureVal, packages.SliceFieldValidator)
 			}
 		})
 	})
@@ -70,25 +70,25 @@ func BenchmarkSliceField(b *testing.B) {
 	// --- ozzo ---
 	b.Run("ozzo/Success", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			data.SliceFieldOzzo(&data.SliceFieldSucessVal)
+			packages.SliceFieldOzzo(&packages.SliceFieldSucessVal)
 		}
 	})
 	b.Run("ozzo/Error", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			data.SliceFieldOzzo(&data.SliceFieldFailureVal)
+			packages.SliceFieldOzzo(&packages.SliceFieldFailureVal)
 		}
 	})
 	b.Run("ozzo/SuccessParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.SliceFieldOzzo(&data.SliceFieldSucessVal)
+				packages.SliceFieldOzzo(&packages.SliceFieldSucessVal)
 			}
 		})
 	})
 	b.Run("ozzo/ErrorParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.SliceFieldOzzo(&data.SliceFieldFailureVal)
+				packages.SliceFieldOzzo(&packages.SliceFieldFailureVal)
 			}
 		})
 	})
@@ -96,25 +96,25 @@ func BenchmarkSliceField(b *testing.B) {
 	// --- govalidator ---
 	b.Run("govalidator/Success", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			data.SliceFieldGoValidator(&data.SliceFieldSucessVal)
+			packages.SliceFieldGoValidator(&packages.SliceFieldSucessVal)
 		}
 	})
 	b.Run("govalidator/Error", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			data.SliceFieldGoValidator(&data.SliceFieldFailureVal)
+			packages.SliceFieldGoValidator(&packages.SliceFieldFailureVal)
 		}
 	})
 	b.Run("govalidator/SuccessParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.SliceFieldGoValidator(&data.SliceFieldSucessVal)
+				packages.SliceFieldGoValidator(&packages.SliceFieldSucessVal)
 			}
 		})
 	})
 	b.Run("govalidator/ErrorParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.SliceFieldGoValidator(&data.SliceFieldFailureVal)
+				packages.SliceFieldGoValidator(&packages.SliceFieldFailureVal)
 			}
 		})
 	})

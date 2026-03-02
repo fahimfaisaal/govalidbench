@@ -3,7 +3,7 @@ package benchmarks
 import (
 	"testing"
 
-	"github.com/Oudwins/govalidbench/packages/data"
+	"github.com/Oudwins/govalidbench/packages"
 	z "github.com/Oudwins/zog"
 	internals "github.com/Oudwins/zog/internals"
 )
@@ -13,13 +13,13 @@ func BenchmarkStringFieldSimple(b *testing.B) {
 	b.Run("zog/Success", func(b *testing.B) {
 		internals.Clear()
 		for i := 0; i < b.N; i++ {
-			data.StringFieldSimpleZog.Validate(&data.StringFieldSimpleSuccessVal)
+			packages.StringFieldSimpleZog.Validate(&packages.StringFieldSimpleSuccessVal)
 		}
 	})
 	b.Run("zog/Error", func(b *testing.B) {
 		internals.Clear()
 		for i := 0; i < b.N; i++ {
-			errs := data.StringFieldSimpleZog.Validate(&data.StringFieldSimpleFailureVal)
+			errs := packages.StringFieldSimpleZog.Validate(&packages.StringFieldSimpleFailureVal)
 			z.Issues.CollectList(errs)
 		}
 	})
@@ -27,7 +27,7 @@ func BenchmarkStringFieldSimple(b *testing.B) {
 		internals.Clear()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.StringFieldSimpleZog.Validate(&data.StringFieldSimpleSuccessVal)
+				packages.StringFieldSimpleZog.Validate(&packages.StringFieldSimpleSuccessVal)
 			}
 		})
 	})
@@ -35,7 +35,7 @@ func BenchmarkStringFieldSimple(b *testing.B) {
 		internals.Clear()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				errs := data.StringFieldSimpleZog.Validate(&data.StringFieldSimpleFailureVal)
+				errs := packages.StringFieldSimpleZog.Validate(&packages.StringFieldSimpleFailureVal)
 				z.Issues.CollectList(errs)
 			}
 		})
@@ -44,25 +44,25 @@ func BenchmarkStringFieldSimple(b *testing.B) {
 	// --- validator ---
 	b.Run("validator/Success", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			playgroundValidate.Var(data.StringFieldSimpleSuccessVal, data.StringFieldSimpleValidator)
+			playgroundValidate.Var(packages.StringFieldSimpleSuccessVal, packages.StringFieldSimpleValidator)
 		}
 	})
 	b.Run("validator/Error", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			playgroundValidate.Var(data.StringFieldSimpleFailureVal, data.StringFieldSimpleValidator)
+			playgroundValidate.Var(packages.StringFieldSimpleFailureVal, packages.StringFieldSimpleValidator)
 		}
 	})
 	b.Run("validator/SuccessParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				playgroundValidate.Var(data.StringFieldSimpleSuccessVal, data.StringFieldSimpleValidator)
+				playgroundValidate.Var(packages.StringFieldSimpleSuccessVal, packages.StringFieldSimpleValidator)
 			}
 		})
 	})
 	b.Run("validator/ErrorParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				playgroundValidate.Var(data.StringFieldSimpleFailureVal, data.StringFieldSimpleValidator)
+				playgroundValidate.Var(packages.StringFieldSimpleFailureVal, packages.StringFieldSimpleValidator)
 			}
 		})
 	})
@@ -70,25 +70,25 @@ func BenchmarkStringFieldSimple(b *testing.B) {
 	// --- ozzo ---
 	b.Run("ozzo/Success", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			data.StringFieldSimpleOzzo(&data.StringFieldSimpleSuccessVal)
+			packages.StringFieldSimpleOzzo(&packages.StringFieldSimpleSuccessVal)
 		}
 	})
 	b.Run("ozzo/Error", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			data.StringFieldSimpleOzzo(&data.StringFieldSimpleFailureVal)
+			packages.StringFieldSimpleOzzo(&packages.StringFieldSimpleFailureVal)
 		}
 	})
 	b.Run("ozzo/SuccessParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.StringFieldSimpleOzzo(&data.StringFieldSimpleSuccessVal)
+				packages.StringFieldSimpleOzzo(&packages.StringFieldSimpleSuccessVal)
 			}
 		})
 	})
 	b.Run("ozzo/ErrorParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.StringFieldSimpleOzzo(&data.StringFieldSimpleFailureVal)
+				packages.StringFieldSimpleOzzo(&packages.StringFieldSimpleFailureVal)
 			}
 		})
 	})
@@ -96,25 +96,25 @@ func BenchmarkStringFieldSimple(b *testing.B) {
 	// --- govalidator ---
 	b.Run("govalidator/Success", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			data.StringFieldSimpleGoValidator(&data.StringFieldSimpleSuccessVal)
+			packages.StringFieldSimpleGoValidator(&packages.StringFieldSimpleSuccessVal)
 		}
 	})
 	b.Run("govalidator/Error", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			data.StringFieldSimpleGoValidator(&data.StringFieldSimpleFailureVal)
+			packages.StringFieldSimpleGoValidator(&packages.StringFieldSimpleFailureVal)
 		}
 	})
 	b.Run("govalidator/SuccessParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.StringFieldSimpleGoValidator(&data.StringFieldSimpleSuccessVal)
+				packages.StringFieldSimpleGoValidator(&packages.StringFieldSimpleSuccessVal)
 			}
 		})
 	})
 	b.Run("govalidator/ErrorParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.StringFieldSimpleGoValidator(&data.StringFieldSimpleFailureVal)
+				packages.StringFieldSimpleGoValidator(&packages.StringFieldSimpleFailureVal)
 			}
 		})
 	})

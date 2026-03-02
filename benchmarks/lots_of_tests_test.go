@@ -3,7 +3,7 @@ package benchmarks
 import (
 	"testing"
 
-	"github.com/Oudwins/govalidbench/packages/data"
+	"github.com/Oudwins/govalidbench/packages"
 	z "github.com/Oudwins/zog"
 	internals "github.com/Oudwins/zog/internals"
 )
@@ -13,13 +13,13 @@ func BenchmarkLotsOfTests(b *testing.B) {
 	b.Run("zog/Success", func(b *testing.B) {
 		internals.Clear()
 		for i := 0; i < b.N; i++ {
-			data.LotsOfTestsZog.Validate(&data.LotsOfTestsSuccessVal)
+			packages.LotsOfTestsZog.Validate(&packages.LotsOfTestsSuccessVal)
 		}
 	})
 	b.Run("zog/Error", func(b *testing.B) {
 		internals.Clear()
 		for i := 0; i < b.N; i++ {
-			errs := data.LotsOfTestsZog.Validate(&data.LotsOfTestsFailureVal)
+			errs := packages.LotsOfTestsZog.Validate(&packages.LotsOfTestsFailureVal)
 			z.Issues.CollectList(errs)
 		}
 	})
@@ -27,7 +27,7 @@ func BenchmarkLotsOfTests(b *testing.B) {
 		internals.Clear()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.LotsOfTestsZog.Validate(&data.LotsOfTestsSuccessVal)
+				packages.LotsOfTestsZog.Validate(&packages.LotsOfTestsSuccessVal)
 			}
 		})
 	})
@@ -35,7 +35,7 @@ func BenchmarkLotsOfTests(b *testing.B) {
 		internals.Clear()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				errs := data.LotsOfTestsZog.Validate(&data.LotsOfTestsFailureVal)
+				errs := packages.LotsOfTestsZog.Validate(&packages.LotsOfTestsFailureVal)
 				z.Issues.CollectList(errs)
 			}
 		})
@@ -44,25 +44,25 @@ func BenchmarkLotsOfTests(b *testing.B) {
 	// --- validator ---
 	b.Run("validator/Success", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			playgroundValidate.Var(data.LotsOfTestsSuccessVal, data.LotsOfTestsValidator)
+			playgroundValidate.Var(packages.LotsOfTestsSuccessVal, packages.LotsOfTestsValidator)
 		}
 	})
 	b.Run("validator/Error", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			playgroundValidate.Var(data.LotsOfTestsFailureVal, data.LotsOfTestsValidator)
+			playgroundValidate.Var(packages.LotsOfTestsFailureVal, packages.LotsOfTestsValidator)
 		}
 	})
 	b.Run("validator/SuccessParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				playgroundValidate.Var(data.LotsOfTestsSuccessVal, data.LotsOfTestsValidator)
+				playgroundValidate.Var(packages.LotsOfTestsSuccessVal, packages.LotsOfTestsValidator)
 			}
 		})
 	})
 	b.Run("validator/ErrorParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				playgroundValidate.Var(data.LotsOfTestsFailureVal, data.LotsOfTestsValidator)
+				playgroundValidate.Var(packages.LotsOfTestsFailureVal, packages.LotsOfTestsValidator)
 			}
 		})
 	})
@@ -70,25 +70,25 @@ func BenchmarkLotsOfTests(b *testing.B) {
 	// --- ozzo ---
 	b.Run("ozzo/Success", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			data.LotsOfTestsOzzo(&data.LotsOfTestsSuccessVal)
+			packages.LotsOfTestsOzzo(&packages.LotsOfTestsSuccessVal)
 		}
 	})
 	b.Run("ozzo/Error", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			data.LotsOfTestsOzzo(&data.LotsOfTestsFailureVal)
+			packages.LotsOfTestsOzzo(&packages.LotsOfTestsFailureVal)
 		}
 	})
 	b.Run("ozzo/SuccessParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.LotsOfTestsOzzo(&data.LotsOfTestsSuccessVal)
+				packages.LotsOfTestsOzzo(&packages.LotsOfTestsSuccessVal)
 			}
 		})
 	})
 	b.Run("ozzo/ErrorParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.LotsOfTestsOzzo(&data.LotsOfTestsFailureVal)
+				packages.LotsOfTestsOzzo(&packages.LotsOfTestsFailureVal)
 			}
 		})
 	})
@@ -96,25 +96,25 @@ func BenchmarkLotsOfTests(b *testing.B) {
 	// --- govalidator ---
 	b.Run("govalidator/Success", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			data.LotsOfTestsGoValidator(&data.LotsOfTestsSuccessVal)
+			packages.LotsOfTestsGoValidator(&packages.LotsOfTestsSuccessVal)
 		}
 	})
 	b.Run("govalidator/Error", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			data.LotsOfTestsGoValidator(&data.LotsOfTestsFailureVal)
+			packages.LotsOfTestsGoValidator(&packages.LotsOfTestsFailureVal)
 		}
 	})
 	b.Run("govalidator/SuccessParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.LotsOfTestsGoValidator(&data.LotsOfTestsSuccessVal)
+				packages.LotsOfTestsGoValidator(&packages.LotsOfTestsSuccessVal)
 			}
 		})
 	})
 	b.Run("govalidator/ErrorParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.LotsOfTestsGoValidator(&data.LotsOfTestsFailureVal)
+				packages.LotsOfTestsGoValidator(&packages.LotsOfTestsFailureVal)
 			}
 		})
 	})

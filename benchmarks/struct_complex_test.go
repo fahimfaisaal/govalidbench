@@ -3,7 +3,7 @@ package benchmarks
 import (
 	"testing"
 
-	"github.com/Oudwins/govalidbench/packages/data"
+	"github.com/Oudwins/govalidbench/packages"
 	z "github.com/Oudwins/zog"
 	internals "github.com/Oudwins/zog/internals"
 	"github.com/asaskevich/govalidator"
@@ -14,13 +14,13 @@ func BenchmarkStructComplex(b *testing.B) {
 	b.Run("zog/Success", func(b *testing.B) {
 		internals.Clear()
 		for i := 0; i < b.N; i++ {
-			data.StructComplexZog.Validate(&data.StructComplexSuccessVal)
+			packages.StructComplexZog.Validate(&packages.StructComplexSuccessVal)
 		}
 	})
 	b.Run("zog/Error", func(b *testing.B) {
 		internals.Clear()
 		for i := 0; i < b.N; i++ {
-			errs := data.StructComplexZog.Validate(&data.StructComplexFailureVal)
+			errs := packages.StructComplexZog.Validate(&packages.StructComplexFailureVal)
 			z.Issues.CollectMap(errs)
 		}
 	})
@@ -28,7 +28,7 @@ func BenchmarkStructComplex(b *testing.B) {
 		internals.Clear()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.StructComplexZog.Validate(&data.StructComplexSuccessVal)
+				packages.StructComplexZog.Validate(&packages.StructComplexSuccessVal)
 			}
 		})
 	})
@@ -36,7 +36,7 @@ func BenchmarkStructComplex(b *testing.B) {
 		internals.Clear()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				errs := data.StructComplexZog.Validate(&data.StructComplexFailureVal)
+				errs := packages.StructComplexZog.Validate(&packages.StructComplexFailureVal)
 				z.Issues.CollectMap(errs)
 			}
 		})
@@ -45,25 +45,25 @@ func BenchmarkStructComplex(b *testing.B) {
 	// --- validator ---
 	b.Run("validator/Success", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			playgroundValidate.Struct(&data.StructComplexSuccessVal)
+			playgroundValidate.Struct(&packages.StructComplexSuccessVal)
 		}
 	})
 	b.Run("validator/Error", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			playgroundValidate.Struct(&data.StructComplexFailureVal)
+			playgroundValidate.Struct(&packages.StructComplexFailureVal)
 		}
 	})
 	b.Run("validator/SuccessParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				playgroundValidate.Struct(&data.StructComplexSuccessVal)
+				playgroundValidate.Struct(&packages.StructComplexSuccessVal)
 			}
 		})
 	})
 	b.Run("validator/ErrorParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				playgroundValidate.Struct(&data.StructComplexFailureVal)
+				playgroundValidate.Struct(&packages.StructComplexFailureVal)
 			}
 		})
 	})
@@ -71,71 +71,71 @@ func BenchmarkStructComplex(b *testing.B) {
 	// --- ozzo ---
 	b.Run("ozzo/Success", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			data.StructComplexOzzo(&data.StructComplexSuccessVal)
+			packages.StructComplexOzzo(&packages.StructComplexSuccessVal)
 		}
 	})
 	b.Run("ozzo/Error", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			data.StructComplexOzzo(&data.StructComplexFailureVal)
+			packages.StructComplexOzzo(&packages.StructComplexFailureVal)
 		}
 	})
 	b.Run("ozzo/SuccessParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.StructComplexOzzo(&data.StructComplexSuccessVal)
+				packages.StructComplexOzzo(&packages.StructComplexSuccessVal)
 			}
 		})
 	})
 	b.Run("ozzo/ErrorParallel", func(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				data.StructComplexOzzo(&data.StructComplexFailureVal)
+				packages.StructComplexOzzo(&packages.StructComplexFailureVal)
 			}
 		})
 	})
 
 	// --- govalidator ---
 	b.Run("govalidator/Success", func(b *testing.B) {
-		_, err := govalidator.ValidateStruct(data.StructComplexSuccessVal)
+		_, err := govalidator.ValidateStruct(packages.StructComplexSuccessVal)
 		if err != nil {
 			b.Fatal(err)
 		}
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
-			govalidator.ValidateStruct(data.StructComplexSuccessVal)
+			govalidator.ValidateStruct(packages.StructComplexSuccessVal)
 		}
 	})
 	b.Run("govalidator/Error", func(b *testing.B) {
-		_, err := govalidator.ValidateStruct(data.StructComplexFailureVal)
+		_, err := govalidator.ValidateStruct(packages.StructComplexFailureVal)
 		if err == nil {
 			b.Fatal("expected error")
 		}
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
-			govalidator.ValidateStruct(data.StructComplexFailureVal)
+			govalidator.ValidateStruct(packages.StructComplexFailureVal)
 		}
 	})
 	b.Run("govalidator/SuccessParallel", func(b *testing.B) {
-		_, err := govalidator.ValidateStruct(data.StructComplexSuccessVal)
+		_, err := govalidator.ValidateStruct(packages.StructComplexSuccessVal)
 		if err != nil {
 			b.Fatal(err)
 		}
 		b.ResetTimer()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				govalidator.ValidateStruct(data.StructComplexSuccessVal)
+				govalidator.ValidateStruct(packages.StructComplexSuccessVal)
 			}
 		})
 	})
 	b.Run("govalidator/ErrorParallel", func(b *testing.B) {
-		_, err := govalidator.ValidateStruct(data.StructComplexFailureVal)
+		_, err := govalidator.ValidateStruct(packages.StructComplexFailureVal)
 		if err == nil {
 			b.Fatal("expected error")
 		}
 		b.ResetTimer()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				govalidator.ValidateStruct(data.StructComplexFailureVal)
+				govalidator.ValidateStruct(packages.StructComplexFailureVal)
 			}
 		})
 	})
@@ -149,15 +149,15 @@ func BenchmarkStructComplexCreate(b *testing.B) {
 	b.Run("zog/Success", func(b *testing.B) {
 		internals.Clear()
 		for i := 0; i < b.N; i++ {
-			s := data.StructComplexCreateZog()
-			s.Validate(&data.StructComplexSuccessVal)
+			s := packages.StructComplexCreateZog()
+			s.Validate(&packages.StructComplexSuccessVal)
 		}
 	})
 	b.Run("zog/Error", func(b *testing.B) {
 		internals.Clear()
 		for i := 0; i < b.N; i++ {
-			s := data.StructComplexCreateZog()
-			errs := s.Validate(&data.StructComplexFailureVal)
+			s := packages.StructComplexCreateZog()
+			errs := s.Validate(&packages.StructComplexFailureVal)
 			z.Issues.CollectMap(errs)
 		}
 	})
@@ -165,8 +165,8 @@ func BenchmarkStructComplexCreate(b *testing.B) {
 		internals.Clear()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				s := data.StructComplexCreateZog()
-				s.Validate(&data.StructComplexSuccessVal)
+				s := packages.StructComplexCreateZog()
+				s.Validate(&packages.StructComplexSuccessVal)
 			}
 		})
 	})
@@ -174,8 +174,8 @@ func BenchmarkStructComplexCreate(b *testing.B) {
 		internals.Clear()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				s := data.StructComplexCreateZog()
-				errs := s.Validate(&data.StructComplexFailureVal)
+				s := packages.StructComplexCreateZog()
+				errs := s.Validate(&packages.StructComplexFailureVal)
 				z.Issues.CollectMap(errs)
 			}
 		})
